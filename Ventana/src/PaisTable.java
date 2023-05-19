@@ -1,5 +1,7 @@
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /*
@@ -35,14 +37,41 @@ public class PaisTable extends ORMTable {
             throw new NullConnectionException();
         }
         PaisEntity p = (PaisEntity) o;
-        String sqlCommand = "INSERT INTO Pais VALUES (ID, Nom, Poblacion, Edat) "
-                + "VALUES (" + p.getID() + ",'" + p.getNom() + "','" + p.getCognoms() + "'," + p.getEdat() + ")";
+        String sqlCommand = "INSERT INTO Pais VALUES (codi, nom, poblacion, europa) "
+                + "VALUES (" + p.getCodi() + ",'" + p.getNom() + "','" + p.getPoblacion() + "'," + p.isEuropa() + ")";
+        
+         Statement st = getBDConnection().getConnection().createStatement();
+        int numFilesAfectades = st.executeUpdate(sqlCommand);
+        st.close();
+
+        //Confirma els canvis
+        getBDConnection().getConnection().commit();
+
+        return numFilesAfectades;
 
     }
 
     @Override
     public ArrayList<?> GetAll() throws NullConnectionException, SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         ArrayList<PaisEntity> resultList = new ArrayList<PaisEntity>();
+
+        Statement consulta = getBDConnection().getConnection().createStatement();
+        ResultSet resultat = consulta.executeQuery("SELECT * FROM Pais");
+
+        while (resultat.next()) {
+            PaisEntity p = new PaisEntity(
+                    resultat.getInt("codi"), 
+                    resultat.getString("nom"), 
+                    resultat.getInt("poblacion"), 
+                    resultat.getBoolean("europa"));
+            resultList.add(p);
+        }
+
+        //Tancar resultat i consulta
+        resultat.close();
+        consulta.close();
+
+        return resultList;
     }
     
 }
