@@ -70,5 +70,14 @@ public class CiudadTable extends ORMTable {
 
         return resultList;
     }
+
+    @Override
+    public void Validar() throws SQLException{
+        getBDConnection().getConnection().commit();
+    }
+    
+    public void Cancelar() throws SQLException{
+        getBDConnection().getConnection().rollback();
+    }
     
 }

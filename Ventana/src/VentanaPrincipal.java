@@ -1,4 +1,5 @@
 
+import java.awt.HeadlessException;
 import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -135,17 +136,30 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         try {
             pt.Insert(pe);
+            confirmarCanvis(pt);
         } catch (NullConnectionException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        /*int ventanaYesNo = JOptionPane.showConfirmDialog(null, "¿Quieres añadir estos valores?", "Añadir", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-        if (ventanaYesNo == 0) {
-        } else if (ventanaYesNo == 1) {
-
-        }*/
     }//GEN-LAST:event_afegirActionPerformed
+
+    private void confirmarCanvis(ORMTable o){
+        int ventanaYesNo = JOptionPane.showConfirmDialog(null, "¿Quieres añadir estos valores?", "Añadir", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (ventanaYesNo == 0) {
+            try {
+                o.Validar();
+            } catch (SQLException ex) {
+                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (ventanaYesNo == 1) {
+            try {
+                o.Cancelar();
+            } catch (SQLException ex) {
+                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     private void veureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_veureActionPerformed
         VentanaSecundaria vs = new VentanaSecundaria();

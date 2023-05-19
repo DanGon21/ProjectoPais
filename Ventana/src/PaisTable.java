@@ -44,9 +44,6 @@ public class PaisTable extends ORMTable {
         int numFilesAfectades = st.executeUpdate(sqlCommand);
         st.close();
 
-        //Confirma els canvis
-        getBDConnection().getConnection().commit();
-
         return numFilesAfectades;
 
     }
@@ -74,4 +71,12 @@ public class PaisTable extends ORMTable {
         return resultList;
     }
     
+    @Override
+    public void Validar() throws SQLException{
+        getBDConnection().getConnection().commit();
+    }
+    
+    public void Cancelar() throws SQLException{
+        getBDConnection().getConnection().rollback();
+    }
 }
