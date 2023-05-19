@@ -1,5 +1,6 @@
 
 import java.sql.SQLException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -127,18 +128,31 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void afegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_afegirActionPerformed
+        try {
+
+            //Crear la connexió a la BD
+            BDConnection bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
+        } catch (ClassNotFoundException ce) {
+            System.out.println("Error al carregar el driver");
+        } catch (SQLException se) {
+            System.out.println("Excepcio: ");
+            System.out.println();
+            System.out.println("El getSQLState es: " + se.getSQLState());
+            System.out.println();
+            System.out.println("El getMessage es: " + se.getMessage());
+        }
+        PaisTable pt = new PaisTable();
+        PaisEntity pe = new PaisEntity(Integer.parseInt(this.codi.getText()), this.nom.getText(), Integer.parseInt(this.poblacio.getText()));
+
+        try {
+            pt.Insert(pe);
+        } catch (NullConnectionException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         int ventanaYesNo = JOptionPane.showConfirmDialog(null, "¿Quieres añadir estos valores?", "Añadir", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (ventanaYesNo == 0) {
-            PaisTable pt = new PaisTable();
-            PaisEntity pe = new PaisEntity(Integer.parseInt(this.codi.getText()), this.nom.getText(), Integer.parseInt(this.poblacio.getText()));
-
-            try {
-                pt.Insert(pe);
-            } catch (NullConnectionException ex) {
-                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-            }
         } else if (ventanaYesNo == 1) {
 
         }
