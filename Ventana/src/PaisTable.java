@@ -37,8 +37,8 @@ public class PaisTable extends ORMTable {
             throw new NullConnectionException();
         }
         PaisEntity p = (PaisEntity) o;
-        String sqlCommand = "INSERT INTO Pais VALUES (codi, nom, poblacion, europa) "
-                + "VALUES (" + p.getCodi() + ",'" + p.getNom() + "','" + p.getPoblacion() + "'," + p.isEuropa() + ")";
+        String sqlCommand = "INSERT INTO Pais (codi, nom, poblacion, europa) "
+                + "VALUES (" + p.getCodi() + ",'" + p.getNom() + "'," + p.getPoblacion() + "," + p.isEuropa() + ")";
         
          Statement st = getBDConnection().getConnection().createStatement();
         int numFilesAfectades = st.executeUpdate(sqlCommand);

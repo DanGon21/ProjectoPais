@@ -20,6 +20,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     static final String URL = "labs.inspedralbes.cat";
     static final String PORT = "3306";
     static final String BD_NAME = "a22pauchagor_pais";
+    static BDConnection bdCon;
+    static PaisTable pt;
+    static CiudadTable ct;
 
     /**
      * Creates new form VentanaPrincipal
@@ -128,20 +131,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void afegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_afegirActionPerformed
-        try {
-
-            //Crear la connexió a la BD
-            BDConnection bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
-        } catch (ClassNotFoundException ce) {
-            System.out.println("Error al carregar el driver");
-        } catch (SQLException se) {
-            System.out.println("Excepcio: ");
-            System.out.println();
-            System.out.println("El getSQLState es: " + se.getSQLState());
-            System.out.println();
-            System.out.println("El getMessage es: " + se.getMessage());
-        }
-        PaisTable pt = new PaisTable();
         PaisEntity pe = new PaisEntity(Integer.parseInt(this.codi.getText()), this.nom.getText(), Integer.parseInt(this.poblacio.getText()));
 
         try {
@@ -175,7 +164,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         try {
 
             //Crear la connexió a la BD
-            BDConnection bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
+            bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
+            pt = new PaisTable();
+            pt.setConnection(bdCon);
+            ct = new CiudadTable();
+            ct.setConnection(bdCon);
         } catch (ClassNotFoundException ce) {
             System.out.println("Error al carregar el driver");
         } catch (SQLException se) {
