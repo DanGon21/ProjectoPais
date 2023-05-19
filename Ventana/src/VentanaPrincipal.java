@@ -14,11 +14,11 @@ import javax.swing.JOptionPane;
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
 
-    static final String USER = "srivas_demo";
-    static final String PWD = "demoDB2022";
+    static final String USER = "a22pauchagor_pais";
+    static final String PWD = "12345Pais";
     static final String URL = "labs.inspedralbes.cat";
     static final String PORT = "3306";
-    static final String BD_NAME = "srivas_DEMO";
+    static final String BD_NAME = "a22pauchagor_pais";
 
     /**
      * Creates new form VentanaPrincipal
