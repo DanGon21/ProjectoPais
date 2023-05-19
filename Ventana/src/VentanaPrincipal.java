@@ -1,13 +1,24 @@
+
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author chave
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
+
+    static final String USER = "srivas_demo";
+    static final String PWD = "demoDB2022";
+    static final String URL = "labs.inspedralbes.cat";
+    static final String PORT = "3306";
+    static final String BD_NAME = "srivas_DEMO";
 
     /**
      * Creates new form VentanaPrincipal
@@ -54,6 +65,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
 
         veure.setText("VER");
+        veure.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                veureActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -66,9 +82,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Codi, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Nom, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Poblacio, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Europa, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                            .addComponent(Europa, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Poblacio))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(europa, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(poblacio, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -111,8 +127,27 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void afegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_afegirActionPerformed
-        // TODO add your handling code here:
+        int ventanaYesNo = JOptionPane.showConfirmDialog(null, "¿Quieres añadir estos valores?", "Añadir", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (ventanaYesNo == 0) {
+            PaisTable pt = new PaisTable();
+            PaisEntity pe = new PaisEntity(Integer.parseInt(this.codi.getText()), this.nom.getText(), Integer.parseInt(this.poblacio.getText()));
+
+            try {
+                pt.Insert(pe);
+            } catch (NullConnectionException ex) {
+                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (ventanaYesNo == 1) {
+
+        }
     }//GEN-LAST:event_afegirActionPerformed
+
+    private void veureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_veureActionPerformed
+        VentanaSecundaria vs = new VentanaSecundaria();
+        vs.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_veureActionPerformed
 
     /**
      * @param args the command line arguments
@@ -121,8 +156,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
+        try {
+
+            //Crear la connexió a la BD
+            BDConnection bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
+        } catch (ClassNotFoundException ce) {
+            System.out.println("Error al carregar el driver");
+        } catch (SQLException se) {
+            System.out.println("Excepcio: ");
+            System.out.println();
+            System.out.println("El getSQLState es: " + se.getSQLState());
+            System.out.println();
+            System.out.println("El getMessage es: " + se.getMessage());
+        }
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

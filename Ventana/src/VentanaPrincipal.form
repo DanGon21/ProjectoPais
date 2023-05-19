@@ -30,10 +30,10 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="Codi" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
                           <Component id="Nom" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
-                          <Component id="Poblacio" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
-                          <Component id="Europa" min="-2" pref="94" max="-2" attributes="0"/>
+                          <Component id="Europa" min="-2" pref="123" max="-2" attributes="0"/>
+                          <Component id="Poblacio" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="europa" min="-2" pref="98" max="-2" attributes="0"/>
                           <Component id="poblacio" min="-2" pref="71" max="-2" attributes="0"/>
@@ -126,6 +126,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="VER"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="veureActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

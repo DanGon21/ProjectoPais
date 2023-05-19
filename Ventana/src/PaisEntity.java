@@ -23,6 +23,11 @@ public class PaisEntity extends ORMEntity {
         this.poblacion = poblacion;
         this.europa = europa;  
     }
+    public PaisEntity(int codi, String nom, int poblacion) {
+        this.codi = codi;
+        this.nom = nom;
+        this.poblacion = poblacion;
+    }
 
     public int getCodi() {
         return codi;
