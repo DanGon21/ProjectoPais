@@ -21,6 +21,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     static final String URL = "labs.inspedralbes.cat";
     static final String PORT = "3306";
     static final String BD_NAME = "a22pauchagor_pais";
+
     static BDConnection bdCon;
     static PaisTable pt;
     static CiudadTable ct;
@@ -144,7 +145,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_afegirActionPerformed
 
-    private void confirmarCanvis(ORMTable o){
+    private void confirmarCanvis(ORMTable o) {
         int ventanaYesNo = JOptionPane.showConfirmDialog(null, "¿Quieres añadir estos valores?", "Añadir", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (ventanaYesNo == 0) {
             try {
