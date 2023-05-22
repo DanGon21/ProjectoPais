@@ -49,7 +49,7 @@ public class PaisTable extends ORMTable {
     }
 
     @Override
-    public ArrayList<?> GetAll() throws NullConnectionException, SQLException {
+    public ArrayList<PaisEntity> GetAll() throws NullConnectionException, SQLException {
          ArrayList<PaisEntity> resultList = new ArrayList<PaisEntity>();
 
         Statement consulta = getBDConnection().getConnection().createStatement();
@@ -70,12 +70,31 @@ public class PaisTable extends ORMTable {
 
         return resultList;
     }
+    
+    
     @Override
     public void Validar() throws SQLException{
         getBDConnection().getConnection().commit();
     }
     
+    @Override
     public void Cancelar() throws SQLException{
         getBDConnection().getConnection().rollback();
+    }
+
+    @Override
+    public int Delete(ORMEntity o) throws NullConnectionException, SQLException {
+        PaisEntity p = (PaisEntity) o;
+        Statement st = getBDConnection().getConnection().createStatement();
+        String sqlCommand = "DELETE FROM Pais WHERE codi="+p.getCodi();
+        int numFilesAfectades = st.executeUpdate(sqlCommand);
+        st.close();
+
+        return numFilesAfectades;
+    }
+
+    @Override
+    public int Update() throws NullConnectionException, SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

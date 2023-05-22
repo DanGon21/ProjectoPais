@@ -79,5 +79,15 @@ public class CiudadTable extends ORMTable {
     public void Cancelar() throws SQLException{
         getBDConnection().getConnection().rollback();
     }
+
+    @Override
+    public int Delete(ORMEntity o) throws NullConnectionException, SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public int Update() throws NullConnectionException, SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }
