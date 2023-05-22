@@ -15,8 +15,6 @@ import java.util.ArrayList;
  * @author ausias
  */
 public class PaisTable extends ORMTable {
-
-    public static ArrayList <String> listaPais;
     
     public PaisTable() {
         super("Pais");
@@ -72,29 +70,6 @@ public class PaisTable extends ORMTable {
 
         return resultList;
     }
-    
-    public ArrayList<?> CargarLista() throws NullConnectionException, SQLException {
-         listaPais= new ArrayList <> ();
-
-        Statement consulta = getBDConnection().getConnection().createStatement();
-        ResultSet resultat = consulta.executeQuery("SELECT * FROM Pais");
-
-        while (resultat.next()) {
-            PaisEntity p = new PaisEntity(
-                    resultat.getInt("codi"), 
-                    resultat.getString("nom"), 
-                    resultat.getInt("poblacion"), 
-                    resultat.getBoolean("europa"));
-            resultList.add(p);
-        }
-
-        //Tancar resultat i consulta
-        resultat.close();
-        consulta.close();
-
-        return resultList;
-    }
-    
     @Override
     public void Validar() throws SQLException{
         getBDConnection().getConnection().commit();

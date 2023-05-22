@@ -43,6 +43,8 @@ public abstract class ORMTable{
     
     public abstract int Insert(ORMEntity o) throws NullConnectionException, SQLException;
     public abstract ArrayList<?> GetAll() throws NullConnectionException, SQLException;
+    public abstract void Delete()throws NullConnectionException, SQLException;
+    public abstract void Update()throws NullConnectionException, SQLException;
     public abstract void Validar() throws SQLException;
     public abstract void Cancelar() throws SQLException;
     
