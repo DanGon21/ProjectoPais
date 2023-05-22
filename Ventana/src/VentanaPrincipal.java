@@ -37,9 +37,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         initComponents();
         listaPais.setModel(model);
         ArrayList<PaisEntity> pais;
-        pais=pt.GetAll();
+        pais = pt.GetAll();
         for (PaisEntity pai : pais) {
-            model.addElement(pai.getCodi()+" "+pai.getNom());
+            model.addElement(pai.getCodi() + " " + pai.getNom());
         }
     }
 
@@ -64,7 +64,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         veure = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         listaPais = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
+        buttonEdit = new javax.swing.JButton();
         buttonDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -104,7 +104,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(listaPais);
 
-        jButton1.setText("EDITAR");
+        buttonEdit.setText("EDITAR");
+        buttonEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEditActionPerformed(evt);
+            }
+        });
 
         buttonDelete.setText("ELIMINAR");
         buttonDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -141,7 +146,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(veure)
                                     .addComponent(europa, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton1))
+                                    .addComponent(buttonEdit))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                                 .addComponent(buttonDelete)))))
                 .addContainerGap())
@@ -171,7 +176,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(afegir)
-                    .addComponent(jButton1)
+                    .addComponent(buttonEdit)
                     .addComponent(buttonDelete))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(veure)
@@ -185,21 +190,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         if (!europa.isSelected()) {
             pe = new PaisEntity(Integer.parseInt(this.codi.getText()), this.nom.getText(), Integer.parseInt(this.poblacio.getText()));
         } else {
-            pe = new PaisEntity(Integer.parseInt(this.codi.getText()), this.nom.getText(), Integer.parseInt(this.poblacio.getText()),this.europa.isEnabled());
+            pe = new PaisEntity(Integer.parseInt(this.codi.getText()), this.nom.getText(), Integer.parseInt(this.poblacio.getText()), this.europa.isEnabled());
         }
         try {
             pt.Insert(pe);
             confirmarCanvis(pt);
+            model.addElement(pe.getCodi() + " " + pe.getNom());
         } catch (NullConnectionException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_afegirActionPerformed
 
     private void confirmarCanvis(ORMTable o) {
-        int ventanaYesNo = JOptionPane.showConfirmDialog(null, "¿Quieres añadir estos valores?", "Añadir", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        int ventanaYesNo = JOptionPane.showConfirmDialog(null, "¿Quieres modificar estos valores?", "Valores", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (ventanaYesNo == 0) {
             try {
                 o.Validar();
@@ -222,9 +227,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
         int indice = listaPais.getSelectedIndex();
-            try {
+        try {
             pe = pt.GetAll().get(indice);
             pt.Delete(pe);
+            confirmarCanvis(pt);
+            model.removeElement(pe.getCodi() + " " + pe.getNom());
         } catch (NullConnectionException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -235,6 +242,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void europaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_europaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_europaActionPerformed
+
+    private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditActionPerformed
+        int indice = listaPais.getSelectedIndex();
+        try {
+            pe = pt.GetAll().get(indice);
+            pt.Update(pe);
+            confirmarCanvis(pt);
+            model.setElementAt(pe.getCodi() + " " + pe.getNom(), indice);
+        } catch (NullConnectionException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_buttonEditActionPerformed
 
     /**
      * @param args the command line arguments
@@ -301,9 +322,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel Poblacio;
     private javax.swing.JButton afegir;
     private javax.swing.JButton buttonDelete;
+    private javax.swing.JButton buttonEdit;
     private javax.swing.JTextField codi;
     private javax.swing.JRadioButton europa;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> listaPais;
     private javax.swing.JTextField nom;

@@ -70,18 +70,6 @@ public class PaisTable extends ORMTable {
 
         return resultList;
     }
-    
-    
-    @Override
-    public void Validar() throws SQLException{
-        getBDConnection().getConnection().commit();
-    }
-    
-    @Override
-    public void Cancelar() throws SQLException{
-        getBDConnection().getConnection().rollback();
-    }
-
     @Override
     public int Delete(ORMEntity o) throws NullConnectionException, SQLException {
         PaisEntity p = (PaisEntity) o;
@@ -94,7 +82,24 @@ public class PaisTable extends ORMTable {
     }
 
     @Override
-    public int Update() throws NullConnectionException, SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int Update(ORMEntity o) throws NullConnectionException, SQLException {
+        PaisEntity p = (PaisEntity) o;
+        String query="UPDATE Pais SET codi= "+ p.getCodi();
+         Statement st = getBDConnection().getConnection().createStatement();
+        int numFilesAfectades = st.executeUpdate(query);
+        st.close();
+
+        return numFilesAfectades;
     }
+    
+    @Override
+    public void Validar() throws SQLException{
+        getBDConnection().getConnection().commit();
+    }
+    
+    @Override
+    public void Cancelar() throws SQLException{
+        getBDConnection().getConnection().rollback();
+    }
+
 }

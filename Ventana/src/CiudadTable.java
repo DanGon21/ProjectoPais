@@ -86,7 +86,7 @@ public class CiudadTable extends ORMTable {
     }
 
     @Override
-    public int Update() throws NullConnectionException, SQLException {
+    public int Update(ORMEntity o) throws NullConnectionException, SQLException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
