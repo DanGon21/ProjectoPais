@@ -249,7 +249,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             pe = pt.GetAll().get(indice);
             pt.Update(pe);
             confirmarCanvis(pt);
-            model.setElementAt(pe.getCodi() + " " + pe.getNom(), indice);
         } catch (NullConnectionException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
