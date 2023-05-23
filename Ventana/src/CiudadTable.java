@@ -50,7 +50,7 @@ public class CiudadTable extends ORMTable {
     }
 
     @Override
-    public ArrayList<?> GetAll() throws NullConnectionException, SQLException {
+    public ArrayList<CiudadEntity> GetAll() throws NullConnectionException, SQLException {
         ArrayList<CiudadEntity> resultList = new ArrayList<CiudadEntity>();
 
         Statement consulta = getBDConnection().getConnection().createStatement();
