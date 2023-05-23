@@ -26,37 +26,36 @@
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="Europa" min="-2" pref="123" max="-2" attributes="0"/>
+                          <Component id="afegir" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="veure" min="-2" max="-2" attributes="0"/>
+                          <Component id="europa" min="-2" pref="98" max="-2" attributes="0"/>
+                          <Component id="buttonEdit" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="codi" min="-2" pref="71" max="-2" attributes="0"/>
                           <Component id="nom" alignment="1" min="-2" pref="71" max="-2" attributes="0"/>
                           <Component id="poblacio" alignment="1" min="-2" pref="71" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="Poblacio" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="Nom" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
+                  <Component id="Codi" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="Poblacio" min="-2" max="-2" attributes="0"/>
-                          <Component id="Nom" min="-2" pref="37" max="-2" attributes="0"/>
-                          <Component id="Codi" min="-2" pref="37" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="Europa" min="-2" pref="123" max="-2" attributes="0"/>
-                                  <Component id="afegir" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="veure" min="-2" max="-2" attributes="0"/>
-                                  <Component id="europa" min="-2" pref="98" max="-2" attributes="0"/>
-                                  <Component id="buttonEdit" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace pref="44" max="32767" attributes="0"/>
-                              <Component id="buttonDelete" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <EmptySpace min="0" pref="51" max="32767" attributes="0"/>
+                      <Component id="buttonDelete" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>

@@ -20,11 +20,11 @@ import javax.swing.JTextField;
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
 
-    static final String USER = "a22pauchagor_pais";
-    static final String PWD = "12345Pais";
+    static final String USER = "a21dangonsem_pais";
+    static final String PWD = "Pais12345";
     static final String URL = "labs.inspedralbes.cat";
     static final String PORT = "3306";
-    static final String BD_NAME = "a22pauchagor_pais";
+    static final String BD_NAME = "a21dangonsem_Pais";
 
     static BDConnection bdCon;
     static PaisTable pt;
@@ -128,30 +128,29 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Europa, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(afegir))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(veure)
+                            .addComponent(europa, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(buttonEdit)))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(116, 116, 116)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(codi, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nom, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(poblacio, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(95, 95, 95)
-                        .addComponent(jScrollPane1))
+                            .addComponent(poblacio, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(Poblacio)
+                    .addComponent(Nom, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Codi, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Poblacio)
-                            .addComponent(Nom, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Codi, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Europa, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(afegir))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(veure)
-                                    .addComponent(europa, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(buttonEdit))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                                .addComponent(buttonDelete)))))
+                        .addGap(0, 51, Short.MAX_VALUE)
+                        .addComponent(buttonDelete))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -224,8 +223,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     private void veureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_veureActionPerformed
-        VentanaSecundaria vs = new VentanaSecundaria();
-        vs.setVisible(true);        // TODO add your handling code here:
+        VentanaSecundaria vs;
+        try {
+            vs = new VentanaSecundaria();
+            vs.setVisible(true);
+        } catch (NullConnectionException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // TODO add your handling code here:
     }//GEN-LAST:event_veureActionPerformed
 
     private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
@@ -280,7 +287,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         DefaultListModel<String> listmodel = new DefaultListModel();
 
         for (PaisEntity paE : listPA) {
-            String paisString = paE.getCodi() + ", " + paE.getNom() + ", " + paE.getPoblacion() + (paE.isEuropa() ? "+ pertenece a europa" : "");
+            String paisString = paE.getCodi() + ", " + paE.getNom() + ", " + paE.getPoblacion() + (paE.isEuropa() ? " + pertenece a europa" : "");
             listmodel.addElement(paisString);
         }
         VP.listaPais.setModel(listmodel);

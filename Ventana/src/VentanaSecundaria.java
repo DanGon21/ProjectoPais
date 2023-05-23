@@ -1,19 +1,38 @@
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author chave
  */
 public class VentanaSecundaria extends javax.swing.JFrame {
 
+    static BDConnection bdCon;
+    static PaisTable pt;
+    static CiudadTable ct;
+    PaisEntity pe;
+    DefaultListModel model = new DefaultListModel();
+
     /**
      * Creates new form VentanaSecundaria
      */
-    public VentanaSecundaria() {
+    public VentanaSecundaria() throws NullConnectionException, SQLException {
         initComponents();
+        listaPais2.setModel(model);
+        ArrayList<PaisEntity> pais;
+        pais = pt.GetAll();
+        for (PaisEntity pai : pais) {
+            modificarlistaPais(this);
+
+        }
     }
 
     /**
@@ -28,9 +47,11 @@ public class VentanaSecundaria extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        listaPais = new javax.swing.JList<>();
+        listaPais2 = new javax.swing.JList<>();
         jScrollPane4 = new javax.swing.JScrollPane();
         listaCiudad = new javax.swing.JList<>();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         jTextField1.setText("jTextField1");
 
@@ -43,12 +64,12 @@ public class VentanaSecundaria extends javax.swing.JFrame {
             }
         });
 
-        listaPais.setModel(new javax.swing.AbstractListModel<String>() {
+        listaPais2.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane3.setViewportView(listaPais);
+        jScrollPane3.setViewportView(listaPais2);
 
         listaCiudad.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -57,30 +78,47 @@ public class VentanaSecundaria extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(listaCiudad);
 
+        jLabel1.setText("Lista Paises");
+
+        jLabel2.setText("Lista Ciudades Paises");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(jButton1)
+                        .addGap(149, 149, 149))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(jLabel1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addGap(32, 32, 32))
+                .addGap(41, 41, 41))
         );
 
         pack();
@@ -89,6 +127,16 @@ public class VentanaSecundaria extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         super.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+    public static void modificarlistaPais(VentanaSecundaria VP) throws NullConnectionException, SQLException {
+        ArrayList<PaisEntity> listPA = pt.GetAll();
+        DefaultListModel<String> listmodel = new DefaultListModel();
+
+        for (PaisEntity paE : listPA) {
+            String paisString = paE.getCodi() + ", " + paE.getNom() + ", " + paE.getPoblacion() + (paE.isEuropa() ? " + pertenece a europa" : "");
+            listmodel.addElement(paisString);
+        }
+        VP.listaPais2.setModel(listmodel);
+    }
 
     /**
      * @param args the command line arguments
@@ -120,17 +168,25 @@ public class VentanaSecundaria extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VentanaSecundaria().setVisible(true);
+                try {
+                    new VentanaSecundaria().setVisible(true);
+                } catch (NullConnectionException ex) {
+                    Logger.getLogger(VentanaSecundaria.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(VentanaSecundaria.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JList<String> listaCiudad;
-    private javax.swing.JList<String> listaPais;
+    private javax.swing.JList<String> listaPais2;
     // End of variables declaration//GEN-END:variables
 }
