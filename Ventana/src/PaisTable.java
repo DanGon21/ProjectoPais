@@ -72,6 +72,20 @@ public class PaisTable extends ORMTable {
     }
     @Override
     public int Delete(ORMEntity o) throws NullConnectionException, SQLException {
+        if (getBDConnection() == null) {
+            throw new NullConnectionException();
+        }
+
+        if (getBDConnection().getConnection() == null) {
+            throw new NullConnectionException();
+        }
+        try {
+            if (getBDConnection().getConnection().isClosed()) {
+                throw new NullConnectionException();
+            }
+        } catch (SQLException e) {
+            throw new NullConnectionException();
+        }
         PaisEntity p = (PaisEntity) o;
         Statement st = getBDConnection().getConnection().createStatement();
         String sqlCommand = "DELETE FROM Pais WHERE codi="+p.getCodi();
@@ -83,8 +97,23 @@ public class PaisTable extends ORMTable {
 
     @Override
     public int Update(ORMEntity o) throws NullConnectionException, SQLException {
+        if (getBDConnection() == null) {
+            throw new NullConnectionException();
+        }
+
+        if (getBDConnection().getConnection() == null) {
+            throw new NullConnectionException();
+        }
+        try {
+            if (getBDConnection().getConnection().isClosed()) {
+                throw new NullConnectionException();
+            }
+        } catch (SQLException e) {
+            throw new NullConnectionException();
+        }
         PaisEntity p = (PaisEntity) o;
-        String query="UPDATE Pais SET codi= "+ p.getCodi();
+        String query="UPDATE Pais SET nom= '"+p.getNom()+"', poblacion= "+p.getPoblacion()+
+                ", europa= "+p.isEuropa()+" WHERE codi="+p.getCodi();
          Statement st = getBDConnection().getConnection().createStatement();
         int numFilesAfectades = st.executeUpdate(query);
         st.close();

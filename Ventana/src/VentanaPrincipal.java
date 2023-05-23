@@ -7,6 +7,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -39,7 +41,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         ArrayList<PaisEntity> pais;
         pais = pt.GetAll();
         for (PaisEntity pai : pais) {
-            model.addElement(pai.getCodi() + " " + pai.getNom());
+            modificarlistaPais(this);
         }
     }
 
@@ -102,6 +104,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        listaPais.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(listaPais);
 
         buttonEdit.setText("EDITAR");
@@ -195,7 +198,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         try {
             pt.Insert(pe);
             confirmarCanvis(pt);
-            model.addElement(pe.getCodi() + " " + pe.getNom());
+            modificarlistaPais(this);
         } catch (NullConnectionException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -204,7 +207,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_afegirActionPerformed
 
     private void confirmarCanvis(ORMTable o) {
-        int ventanaYesNo = JOptionPane.showConfirmDialog(null, "¿Quieres modificar estos valores?", "Valores", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        int ventanaYesNo = JOptionPane.showConfirmDialog(null, "¿Quieres confirmar este cambio?", "Valores", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (ventanaYesNo == 0) {
             try {
                 o.Validar();
@@ -231,7 +234,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             pe = pt.GetAll().get(indice);
             pt.Delete(pe);
             confirmarCanvis(pt);
-            model.removeElement(pe.getCodi() + " " + pe.getNom());
+            modificarlistaPais(this);
         } catch (NullConnectionException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -246,15 +249,42 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditActionPerformed
         int indice = listaPais.getSelectedIndex();
         try {
-            pe = pt.GetAll().get(indice);
-            pt.Update(pe);
-            confirmarCanvis(pt);
+            PaisEntity paiseleccionado = pt.GetAll().get(indice);
+            JTextField nomTextOption = new JTextField(paiseleccionado.getNom());
+            JTextField poblacionTextOption = new JTextField(paiseleccionado.getPoblacion());
+            JRadioButton europaButton = new JRadioButton("", paiseleccionado.isEuropa());
+            Object[] paismensaje = {
+                "Nom: ", nomTextOption,
+                "Poblacion: ", poblacionTextOption,
+                "Pertenece a Europa: ", europaButton
+            };
+            int option = JOptionPane.showConfirmDialog(null, paismensaje, "Update Pais", JOptionPane.YES_NO_OPTION);
+            if (option == JOptionPane.YES_OPTION) {
+                String nom = nomTextOption.getText();
+                int poblacion = Integer.parseInt(poblacionTextOption.getText());
+                boolean europa = europaButton.isSelected();
+                PaisEntity paisActualizar = new PaisEntity(paiseleccionado.getCodi(), nom, poblacion, europa);
+                pt.Update(paisActualizar);
+                confirmarCanvis(pt);
+                modificarlistaPais(this);
+            }
         } catch (NullConnectionException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_buttonEditActionPerformed
+
+    public static void modificarlistaPais(VentanaPrincipal VP) throws NullConnectionException, SQLException {
+        ArrayList<PaisEntity> listPA = pt.GetAll();
+        DefaultListModel<String> listmodel = new DefaultListModel();
+
+        for (PaisEntity paE : listPA) {
+            String paisString = paE.getCodi() + ", " + paE.getNom() + ", " + paE.getPoblacion() + (paE.isEuropa() ? "+ pertenece a europa" : "");
+            listmodel.addElement(paisString);
+        }
+        VP.listaPais.setModel(listmodel);
+    }
 
     /**
      * @param args the command line arguments
