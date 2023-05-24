@@ -47,7 +47,7 @@
                       <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="buttonEdit" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="ListaPaises" alignment="1" min="-2" max="-2" attributes="0"/>
                           <Component id="buttonDelete" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -84,7 +84,7 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="codi" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="ListaPaises" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="Codi" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -245,7 +245,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="ListaPaises">
       <Properties>
         <Property name="text" type="java.lang.String" value="Lista Paises"/>
       </Properties>
@@ -260,7 +260,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Lista Ciudades "/>
+        <Property name="text" type="java.lang.String" value="ListaCiudades"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSpinner" name="poblacio">
