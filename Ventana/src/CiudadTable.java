@@ -70,6 +70,26 @@ public class CiudadTable extends ORMTable {
 
         return resultList;
     }
+    public ArrayList<CiudadEntity> GetAllByPais(PaisEntity pe) throws NullConnectionException, SQLException {
+        ArrayList<CiudadEntity> resultList = new ArrayList<CiudadEntity>();
+        PaisEntity PE = pe;
+        Statement consulta = getBDConnection().getConnection().createStatement();
+        ResultSet resultat = consulta.executeQuery("SELECT * FROM Ciudad WHERE codiPais= "+PE.getCodi());
+
+        while (resultat.next()) {
+            CiudadEntity c = new CiudadEntity(
+                    resultat.getInt("codi"), 
+                    resultat.getString("nom"), 
+                    resultat.getInt("poblacion"));
+            resultList.add(c);
+        }
+
+        //Tancar resultat i consulta
+        resultat.close();
+        consulta.close();
+
+        return resultList;
+    }
 
     @Override
     public void Validar() throws SQLException{

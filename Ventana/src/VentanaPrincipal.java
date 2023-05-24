@@ -29,9 +29,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     static BDConnection bdCon;
     static PaisTable pt;
     static CiudadTable ct;
-    PaisEntity pe;
-    DefaultListModel model = new DefaultListModel();
-    DefaultListModel model2 = new DefaultListModel();
+    static PaisEntity pe;
+    static DefaultListModel model = new DefaultListModel();
+    static DefaultListModel model2 = new DefaultListModel();
 
     /**
      * Creates new form VentanaPrincipal
@@ -45,12 +45,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         ArrayList<PaisEntity> pais;
         pais = pt.GetAll();
         listaCiudades.setModel(model2);
-        ArrayList<CiudadEntity> ciudad;
         for (PaisEntity pai : pais) {
             modificarlistaPais(this);
-        }
-        for (PaisEntity pai : pais) {
-            modificarlistaCiudad(this,pe);
         }
     }
 
@@ -81,6 +77,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         buttonCerrar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        verCiudades = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -146,6 +143,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jLabel2.setText("Lista Ciudades ");
 
+        verCiudades.setText("VER");
+        verCiudades.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verCiudadesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -184,7 +188,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addComponent(Europa, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(europa, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(verCiudades)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
@@ -231,7 +236,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(verCiudades)))))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
@@ -323,6 +331,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         super.dispose();
     }//GEN-LAST:event_buttonCerrarActionPerformed
 
+    private void verCiudadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verCiudadesActionPerformed
+        int indice = listaPais.getSelectedIndex();
+        
+        try {
+            PaisEntity paiseleccionado = pt.GetAll().get(indice);
+            modificarlistaCiudad(this,paiseleccionado);
+        } catch (NullConnectionException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_verCiudadesActionPerformed
+
     public static void modificarlistaPais(VentanaPrincipal VP) throws NullConnectionException, SQLException {
         ArrayList<PaisEntity> listPA = pt.GetAll();
         DefaultListModel<String> listmodel = new DefaultListModel();
@@ -334,8 +355,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         VP.listaPais.setModel(listmodel);
     }
 
-    public static void modificarlistaCiudad(VentanaPrincipal VP,PaisEntity pe) throws NullConnectionException, SQLException {
-        ArrayList<CiudadEntity> listCA = ct.GetAll();
+    public void modificarlistaCiudad(VentanaPrincipal VP, PaisEntity pe) throws NullConnectionException, SQLException {
+        ArrayList<CiudadEntity> listCA = ct.GetAllByPais(pe);
         DefaultListModel<String> listmodel = new DefaultListModel();
         for (CiudadEntity ciE : listCA) {
             String ciudadString = ciE.getCodi() + ", " + ciE.getNom() + ", " + ciE.getPoblacion();
@@ -421,5 +442,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JList<String> listaPais;
     private javax.swing.JTextField nom;
     private javax.swing.JTextField poblacio;
+    private javax.swing.JButton verCiudades;
     // End of variables declaration//GEN-END:variables
 }
